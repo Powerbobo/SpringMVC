@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+<!-- 	아래 코드를 사용하기 위해서 bean 등록 -->
+<!-- 	<environments default="development"> -->
+<!-- 		<environment id="development"> -->
+<!-- 			<transactionManager type="JDBC"/> -->
+<!-- 		<dataSource type="POOLED"> -->
+<!--         	<property name="driver" value=""/> -->
+<!--         	<property name="url" value=""/> -->
+<!--         	<property name="username" value=""/> -->
+<!-- 			<property name="password" value=""/> -->
+<!-- 		</dataSource> -->
+<!-- 		</environment> -->
+<!-- 	</environments> -->
+
+<!-- 	bean 등록 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+<!-- 		setter() 메소드를 이용해 필드 초기화(의존성 주입) -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" 			 value="jdbc:oracle:thin:@127.0.0.1:1521:XE"></property>
+		<property name="username"		 value="SPRING"></property>
+		<property name="password" 		 value="SPRING"></property>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession"></constructor-arg>
+	</bean>
+</beans>
